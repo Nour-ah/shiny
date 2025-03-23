@@ -8,7 +8,7 @@ var defaultPrimaryColor = Color(0xFF5F60B9);
 // Don't add slash at the end of the url
 
 const DOMAIN_URL = "https://shiny.olearns.com";
-const BASE_URL = '$DOMAIN_URL/api/v1';
+const BASE_URL = '$DOMAIN_URL/api/';
 
 const DEFAULT_LANGUAGE = 'en';
 

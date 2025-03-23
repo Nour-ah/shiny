@@ -24,13 +24,17 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     afterBuildCreated(() {
-      setStatusBarColor(Colors.transparent, statusBarBrightness: Brightness.dark, statusBarIconBrightness: appStore.isDarkMode ? Brightness.light : Brightness.dark);
+      setStatusBarColor(Colors.transparent,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness:
+              appStore.isDarkMode ? Brightness.light : Brightness.dark);
       init();
     });
   }
 
   Future<void> init() async {
-    await appStore.setLanguage(getStringAsync(SELECTED_LANGUAGE_CODE, defaultValue: DEFAULT_LANGUAGE));
+    await appStore.setLanguage(
+        getStringAsync(SELECTED_LANGUAGE_CODE, defaultValue: DEFAULT_LANGUAGE));
 
     // Sync new configurations when app is open
     await setValue(LAST_APP_CONFIGURATION_SYNCED_TIME, 0);
@@ -48,9 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
       appNotSynced = true;
       setState(() {});
     } else {
-      int themeModeIndex = getIntAsync(THEME_MODE_INDEX, defaultValue: THEME_MODE_SYSTEM);
+      int themeModeIndex =
+          getIntAsync(THEME_MODE_INDEX, defaultValue: THEME_MODE_SYSTEM);
       if (themeModeIndex == THEME_MODE_SYSTEM) {
-        appStore.setDarkMode(MediaQuery.of(context).platformBrightness == Brightness.dark);
+        appStore.setDarkMode(
+            MediaQuery.of(context).platformBrightness == Brightness.dark);
       }
       // Check if the user is unauthorized and logged in, then clear preferences and cached data.
       // This condition occurs when the user is marked as inactive from the admin panel,
@@ -58,16 +64,21 @@ class _SplashScreenState extends State<SplashScreen> {
         await clearPreferences();
 
         // Clear cached wallet history if it exists and is not empty
-        if (cachedWalletHistoryList != null && cachedWalletHistoryList!.isNotEmpty) cachedWalletHistoryList!.clear();
+        if (cachedWalletHistoryList != null &&
+            cachedWalletHistoryList!.isNotEmpty)
+          cachedWalletHistoryList!.clear();
       }
-      
+
       if (appConfigurationStore.maintenanceModeStatus) {
-        MaintenanceModeScreen().launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+        MaintenanceModeScreen().launch(context,
+            isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
       } else {
         if (getBoolAsync(IS_FIRST_TIME, defaultValue: true)) {
-          WalkThroughScreen().launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+          WalkThroughScreen().launch(context,
+              isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
         } else {
-          DashboardScreen().launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+          DashboardScreen().launch(context,
+              isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
         }
       }
     }
@@ -96,7 +107,11 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Image.asset(appLogo, height: 120, width: 120),
               32.height,
-              Text(APP_NAME, style: boldTextStyle(size: 26, color: appStore.isDarkMode ? Colors.white : Colors.black), textAlign: TextAlign.center),
+              Text(APP_NAME,
+                  style: boldTextStyle(
+                      size: 26,
+                      color: appStore.isDarkMode ? Colors.white : Colors.black),
+                  textAlign: TextAlign.center),
               16.height,
               if (appNotSynced)
                 Observer(

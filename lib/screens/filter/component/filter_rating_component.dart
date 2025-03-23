@@ -4,6 +4,8 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../app_theme.dart';
+
 class FilterRatingComponent extends StatefulWidget {
   @override
   State<FilterRatingComponent> createState() => _FilterRatingComponentState();
@@ -14,6 +16,8 @@ class _FilterRatingComponentState extends State<FilterRatingComponent> {
   void initState() {
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,8 @@ class _FilterRatingComponentState extends State<FilterRatingComponent> {
                   children: [
                     SelectedItemWidget(isSelected: isSelected),
                     8.width,
-                    DisabledRatingBarWidget(rating: (index + 1).toDouble()).expand(),
+                    DisabledRatingBarWidget(rating: (index + 1).toDouble())
+                        .expand(),
                     Text('${(index + 1)}', style: primaryTextStyle(size: 14)),
                   ],
                 ),
@@ -47,7 +52,8 @@ class _FilterRatingComponentState extends State<FilterRatingComponent> {
                 if (!filterStore.ratingId.contains(selectedIndex)) {
                   filterStore.ratingId.add(selectedIndex);
                 } else {
-                  filterStore.ratingId.removeWhere((element) => element == selectedIndex);
+                  filterStore.ratingId
+                      .removeWhere((element) => element == selectedIndex);
                 }
                 setState(() {});
               });

@@ -24,14 +24,39 @@ class ServiceDetailResponse {
 
   factory ServiceDetailResponse.fromJson(Map<String, dynamic> json) {
     return ServiceDetailResponse(
-      couponData: json['coupon_data'] != null ? (json['coupon_data'] as List).map((i) => CouponData.fromJson(i)).toList() : null,
-      provider: json['provider'] != null ? UserData.fromJson(json['provider']) : null,
-      ratingData: json['rating_data'] != null ? (json['rating_data'] as List).map((i) => RatingData.fromJson(i)).toList() : null,
-      serviceDetail: json['service_detail'] != null ? ServiceData.fromJson(json['service_detail']) : null,
-      taxes: json['taxes'] != null ? (json['taxes'] as List).map((i) => TaxData.fromJson(i)).toList() : null,
-      relatedService: json['related_service'] != null ? (json['related_service'] as List).map((i) => ServiceData.fromJson(i)).toList() : null,
-      serviceFaq: json['service_faq'] != null ? (json['service_faq'] as List).map((i) => ServiceFaq.fromJson(i)).toList() : null,
-      serviceaddon: json['serviceaddon'] != null ? (json['serviceaddon'] as List).map((i) => Serviceaddon.fromJson(i)).toList() : null,
+      couponData: json['coupon_data'] != null
+          ? (json['coupon_data'] as List)
+              .map((i) => CouponData.fromJson(i))
+              .toList()
+          : null,
+      provider:
+          json['provider'] != null ? UserData.fromJson(json['provider']) : null,
+      ratingData: json['rating_data'] != null
+          ? (json['rating_data'] as List)
+              .map((i) => RatingData.fromJson(i))
+              .toList()
+          : null,
+      serviceDetail: json['service_detail'] != null
+          ? ServiceData.fromJson(json['service_detail'])
+          : null,
+      taxes: json['taxes'] != null
+          ? (json['taxes'] as List).map((i) => TaxData.fromJson(i)).toList()
+          : null,
+      relatedService: json['related_service'] != null
+          ? (json['related_service'] as List)
+              .map((i) => ServiceData.fromJson(i))
+              .toList()
+          : null,
+      serviceFaq: json['service_faq'] != null
+          ? (json['service_faq'] as List)
+              .map((i) => ServiceFaq.fromJson(i))
+              .toList()
+          : null,
+      serviceaddon: json['serviceaddon'] != null
+          ? (json['serviceaddon'] as List)
+              .map((i) => Serviceaddon.fromJson(i))
+              .toList()
+          : null,
     );
   }
 
@@ -53,7 +78,8 @@ class ServiceDetailResponse {
       data['taxes'] = this.taxes!.map((v) => v.toJson()).toList();
     }
     if (this.relatedService != null) {
-      data['related_service'] = this.relatedService!.map((v) => v.toJson()).toList();
+      data['related_service'] =
+          this.relatedService!.map((v) => v.toJson()).toList();
     }
     if (this.serviceFaq != null) {
       data['service_faq'] = this.serviceFaq!.map((v) => v.toJson()).toList();
@@ -73,7 +99,13 @@ class TaxData {
   num? value;
   num? totalCalculatedValue;
 
-  TaxData({this.id, this.providerId, this.title, this.type, this.value, this.totalCalculatedValue});
+  TaxData(
+      {this.id,
+      this.providerId,
+      this.title,
+      this.type,
+      this.value,
+      this.totalCalculatedValue});
 
   factory TaxData.fromJson(Map<String, dynamic> json) {
     return TaxData(
@@ -105,7 +137,14 @@ class CouponData {
   int? status;
   bool isApplied;
 
-  CouponData({this.code, this.discount, this.discountType, this.expireDate, this.id, this.status, this.isApplied = false});
+  CouponData(
+      {this.code,
+      this.discount,
+      this.discountType,
+      this.expireDate,
+      this.id,
+      this.status,
+      this.isApplied = false});
 
   factory CouponData.fromJson(Map<String, dynamic> json) {
     return CouponData(
@@ -185,7 +224,9 @@ class RatingData {
       customerName: json['customer_name'],
       customerProfileImage: json['customer_profile_image'],
       serviceName: json['service_name'],
-      attachments: json['attchments'] != null ? List<String>.from(json['attchments']) : null,
+      attachments: json['attchments'] != null
+          ? List<String>.from(json['attchments'])
+          : null,
     );
   }
 
@@ -222,7 +263,14 @@ class ServiceFaq {
   String? title;
   String? updatedAt;
 
-  ServiceFaq({this.createdAt, this.description, this.id, this.serviceId, this.status, this.title, this.updatedAt});
+  ServiceFaq(
+      {this.createdAt,
+      this.description,
+      this.id,
+      this.serviceId,
+      this.status,
+      this.title,
+      this.updatedAt});
 
   factory ServiceFaq.fromJson(Map<String, dynamic> json) {
     return ServiceFaq(
@@ -277,7 +325,9 @@ class Serviceaddon {
     return Serviceaddon(
       id: json['id'] is int ? json['id'] : -1,
       name: json['name'] is String ? json['name'] : "",
-      serviceAddonImage: json['serviceaddon_image'] is String ? json['serviceaddon_image'] : "",
+      serviceAddonImage: json['serviceaddon_image'] is String
+          ? json['serviceaddon_image']
+          : "",
       serviceId: json['service_id'] is int ? json['service_id'] : -1,
       price: json['price'] is num ? json['price'] : 0,
       status: json['status'] is int ? json['status'] : -1,
