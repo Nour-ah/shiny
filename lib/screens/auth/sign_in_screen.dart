@@ -86,12 +86,16 @@ class _SignInScreenState extends State<SignInScreen> {
     appStore.setLoading(true);
     try {
       final loginResponse = await loginUser(request, isSocialLogin: false);
+      print('done login');
+      await saveUserData(loginResponse);
 
-      await saveUserData(loginResponse.userData!);
-
+      print('done login 1 ');
       await setValue(USER_PASSWORD, passwordCont.text);
+      print('done login 2 ');
       await setValue(IS_REMEMBERED, isRemember);
+      print('done login 3 ');
       await appStore.setLoginType(LOGIN_TYPE_USER);
+      print('done login 4 ');
 
       authService.verifyFirebaseUser();
       TextInput.finishAutofillContext();
@@ -130,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
         loginResponse.userData!.profileImage = googleUser.photoURL.validate();
 
-        await saveUserData(loginResponse.userData!);
+        await saveUserData(loginResponse);
         appStore.setLoginType(LOGIN_TYPE_GOOGLE);
 
         authService.verifyFirebaseUser();
@@ -151,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       await authService.appleSignIn().then((req) async {
         await loginUser(req, isSocialLogin: true).then((value) async {
-          await saveUserData(value.userData!);
+          await saveUserData(value);
           appStore.setLoginType(LOGIN_TYPE_APPLE);
 
           appStore.setLoading(false);

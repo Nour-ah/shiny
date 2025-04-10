@@ -4,30 +4,27 @@ import 'package:booking_system_flutter/model/user_data_model.dart';
 class LoginResponse {
   UserData? userData;
   bool? isUserExist;
-  bool? status;
+  String? apiToken;
   String? message;
 
-  LoginResponse({this.userData, this.isUserExist, this.status, this.message});
+  LoginResponse({this.userData, this.apiToken, this.isUserExist, this.message});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      userData: json['data']['user'] != null
-          ? UserData.fromJson(json['data']['user'])
-          : null,
-      isUserExist: json['is_user_exist'],
-      status: json['status'],
-      message: json['message'],
-    );
+        userData: json['data']['user'] != null
+            ? UserData.fromJson(json['data']['user'])
+            : null,
+        apiToken: json['data']['api_token'],
+        isUserExist: json['data'] != null ? true : false,
+        message: json['message']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.userData != null) {
-      data['data'] = this.userData!.toJson();
+      data['data']['user'] = this.userData!.toJson();
     }
-    data['is_user_exist'] = this.isUserExist;
-    data['status'] = this.status;
-    data['message'] = this.message;
+
     return data;
   }
 }

@@ -46,7 +46,6 @@ class UserData {
   num? handymanRating;
   int? isVerifyProvider;
   String? designation;
-  String? apiToken;
   String? emailVerifiedAt;
   List<String>? userRole;
   HandymanReview? handymanReview;
@@ -109,7 +108,6 @@ class UserData {
 
   UserData({
     this.address,
-    this.apiToken,
     this.cityId,
     this.contactNumber,
     this.countryId,
@@ -164,7 +162,6 @@ class UserData {
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
       address: json['address'],
-      apiToken: json['api_token'],
       cityId: json['city_id'],
       contactNumber: json['contact_number'],
       countryId: json['country_id'],
@@ -224,7 +221,6 @@ class UserData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.address != null) data['address'] = this.address;
-    if (this.apiToken != null) data['api_token'] = this.apiToken;
     if (this.cityId != null) data['city_id'] = this.cityId;
     if (this.password != null) data['password'] = this.password;
     if (this.contactNumber != null) data['contact_number'] = this.contactNumber;

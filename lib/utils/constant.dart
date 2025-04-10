@@ -84,8 +84,8 @@ const LIVESTREAM_UPDATE_HELP_DESK_LIST = "LIVESTREAM_UPDATE_HELP_DESK_LIST";
 //endregion
 
 //region default USER login
-const DEFAULT_EMAIL = 'demo@user.com';
-const DEFAULT_PASS = '12345678';
+const DEFAULT_EMAIL = '';
+const DEFAULT_PASS = '';
 //endregion
 
 //region THEME MODE TYPE

@@ -214,7 +214,7 @@ Future<void> reGenerateToken() async {
 
   return await loginUser(req, isSocialLogin: !isLoginTypeUser)
       .then((value) async {
-    await appStore.setToken(value.userData!.apiToken.validate());
+    await appStore.setToken(value.apiToken.validate());
     appStore.setLoading(false);
   }).catchError((e) {
     log(e);

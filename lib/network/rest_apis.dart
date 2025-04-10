@@ -89,7 +89,7 @@ Future<LoginResponse> updateProfile(Map request) async {
       method: HttpMethodType.POST)));
 }
 
-Future<UserData> getUserDetail(int id, {bool forceUpdate = true}) async {
+Future<LoginResponse> getUserDetail(int id, {bool forceUpdate = true}) async {
   DateTime currentTimeStamp = DateTime.timestamp();
   DateTime lastSyncedTimeStamp = DateTime.fromMillisecondsSinceEpoch(
       getIntAsync(LAST_USER_DETAILS_SYNCED_TIME));
@@ -108,14 +108,14 @@ Future<UserData> getUserDetail(int id, {bool forceUpdate = true}) async {
     if (res.userData != null) {
       await setValue(LAST_USER_DETAILS_SYNCED_TIME,
           DateTime.timestamp().millisecondsSinceEpoch);
-      return res.userData!;
+      return res;
     } else {
       throw errorSomethingWentWrong;
     }
   }
 }
 
-Future<void> saveUserData(UserData data,
+Future<void> saveUserData(LoginResponse data,
     {bool forceSyncAppConfigurations = true}) async {
   if (data.apiToken.validate().isNotEmpty)
     print('🔑 Using token: ${data.apiToken} ');
@@ -123,20 +123,21 @@ Future<void> saveUserData(UserData data,
   appStore.setLoggedIn(true);
   print('🔑 Using token: ${data.apiToken} ');
 
-  await appStore.setUserId(data.id.validate());
-  await appStore.setUId(data.uid.validate());
-  await appStore.setFirstName(data.firstName.validate());
-  await appStore.setLastName(data.lastName.validate());
-  await appStore.setUserEmail(data.email.validate());
-  await appStore.setUserName(data.username.validate());
-  await appStore.setCountryId(data.countryId.validate());
-  await appStore.setStateId(data.stateId.validate());
-  await appStore.setCityId(data.cityId.validate());
-  await appStore.setContactNumber(data.contactNumber.validate());
-  await appStore.setLoginType(data.loginType.validate(value: LOGIN_TYPE_USER));
-  await appStore.setAddress(data.address.validate());
+  await appStore.setUserId(data.userData!.id.validate());
+  await appStore.setUId(data.userData!.uid.validate());
+  await appStore.setFirstName(data.userData!.firstName.validate());
+  await appStore.setLastName(data.userData!.lastName.validate());
+  await appStore.setUserEmail(data.userData!.email.validate());
+  await appStore.setUserName(data.userData!.username.validate());
+  await appStore.setCountryId(data.userData!.countryId.validate());
+  await appStore.setStateId(data.userData!.stateId.validate());
+  await appStore.setCityId(data.userData!.cityId.validate());
+  await appStore.setContactNumber(data.userData!.contactNumber.validate());
+  await appStore
+      .setLoginType(data.userData!.loginType.validate(value: LOGIN_TYPE_USER));
+  await appStore.setAddress(data.userData!.address.validate());
 
-  await appStore.setUserProfile(data.profileImage.validate());
+  await appStore.setUserProfile(data.userData!.profileImage.validate());
 
   /// Subscribe Firebase Topic
   subscribeToFirebaseTopic();
