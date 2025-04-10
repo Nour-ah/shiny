@@ -1,3 +1,4 @@
+// network/rest_apis.dart
 import 'dart:async';
 import 'dart:io';
 
@@ -61,10 +62,13 @@ Future<LoginResponse> loginUser(Map request,
     LoginResponse res = LoginResponse.fromJson(await handleResponse(
         await buildHttpResponse(isSocialLogin ? 'social-login' : 'login',
             request: request, method: HttpMethodType.POST)));
-
+    print('User Type: ${res.userData!.userType}');
+    print('User Status: ${res.userData!.status}');
+    print('User Status: ${res.userData!}');
     if (res.userData != null) {
       if (res.userData!.userType != USER_TYPE_USER) {
         appStore.setLoading(false);
+
         throw language.lblNotValidUser;
       }
       if (res.userData!.status == 0) {
@@ -114,8 +118,10 @@ Future<UserData> getUserDetail(int id, {bool forceUpdate = true}) async {
 Future<void> saveUserData(UserData data,
     {bool forceSyncAppConfigurations = true}) async {
   if (data.apiToken.validate().isNotEmpty)
-    await appStore.setToken(data.apiToken!);
+    print('🔑 Using token: ${data.apiToken} ');
+  await appStore.setToken(data.apiToken!);
   appStore.setLoggedIn(true);
+  print('🔑 Using token: ${data.apiToken} ');
 
   await appStore.setUserId(data.id.validate());
   await appStore.setUId(data.uid.validate());
@@ -606,23 +612,45 @@ Future<List<CategoryData>> getSubCategoryListAPI({required int catId}) async {
 //endregion
 
 //region Provider Api
+// Future<ProviderInfoResponse> getProviderDetail(int id, {int? userId}) async {
+//   try {
+//     ProviderInfoResponse res = ProviderInfoResponse.fromJson(
+//         await handleResponse(await buildHttpResponse(
+//             'user-detail?id=$id&login_user_id=$userId',
+//             method: HttpMethodType.GET)));
+//     appStore.setLoading(false);
+//     if (!cachedProviderList.any((element) => element?.$1 == id)) {
+//       cachedProviderList.add((id, res));
+//     } else {
+//       int index = cachedProviderList.indexWhere((element) => element?.$1 == id);
+//       cachedProviderList[index] = (id, res);
+//     }
+//     return res;
+//   } catch (e) {
+//     appStore.setLoading(false);
+
+//     throw e;
+//   }
+// }
 Future<ProviderInfoResponse> getProviderDetail(int id, {int? userId}) async {
   try {
     ProviderInfoResponse res = ProviderInfoResponse.fromJson(
         await handleResponse(await buildHttpResponse(
             'user-detail?id=$id&login_user_id=$userId',
             method: HttpMethodType.GET)));
+
     appStore.setLoading(false);
+
     if (!cachedProviderList.any((element) => element?.$1 == id)) {
       cachedProviderList.add((id, res));
     } else {
       int index = cachedProviderList.indexWhere((element) => element?.$1 == id);
       cachedProviderList[index] = (id, res);
     }
+
     return res;
   } catch (e) {
     appStore.setLoading(false);
-
     throw e;
   }
 }

@@ -1,4 +1,5 @@
-const appLogo = 'assets/ic_app_logo.png';
+// utils/images.dart
+const appLogo = 'assets/favicon.png';
 
 //region NewDashboard
 const grid = "assets/newDashboard/grid.png";
@@ -15,14 +16,14 @@ const imgAppLogo = 'assets/newDashboard/img_app_logo.png';
 const about_us_page = 'assets/images/about_us_page.png';
 const chat_default_wallpaper = 'assets/images/default_wallpaper.png';
 const imgForceUpdate = 'assets/images/force_update.png';
-const logout_image = 'assets/images/logout_logo.png';
-const no_rating_bar = 'assets/images/no_rating_bar.png';
+const logout_image = 'assets/images/Image2.png';
+const no_rating_bar = 'assets/images/Image (1).png';
 const splash_background = 'assets/images/splash_background.jpg';
 const splash_light_background = 'assets/images/splash_light_background.png';
-const walk_Img1 = 'assets/images/walkthrough_1.png';
-const walk_Img2 = 'assets/images/walkthrough_2.png';
-const walk_Img3 = 'assets/images/walkthrough_3.png';
-const walk_Img4 = 'assets/images/walkthrough_4.png';
+const walk_Img1 = 'assets/images/Group.png';
+const walk_Img2 = 'assets/images/Group (1).png';
+const walk_Img3 = 'assets/images/Group (2).png';
+const walk_Img4 = 'assets/images/Group (3).png';
 const imgNewPostJob1 = 'assets/images/img_new_post_job_1.png';
 
 //endregion
@@ -88,8 +89,10 @@ const phonepe_logo = 'assets/icons/phonepe_logo.png';
 const airtel_logo = 'assets/icons/airtel_logo.png';
 const ic_cancel_booking = 'assets/icons/ic_cancel_booking.png';
 const paystack_logo = 'assets/icons/paystack_logo.png';
-const ic_diagonal_left_down_arrow = 'assets/icons/ic_diagonal_left_down_arrow.png';
-const ic_diagonal_right_up_arrow = 'assets/icons/ic_diagonal_right_up_arrow.png';
+const ic_diagonal_left_down_arrow =
+    'assets/icons/ic_diagonal_left_down_arrow.png';
+const ic_diagonal_right_up_arrow =
+    'assets/icons/ic_diagonal_right_up_arrow.png';
 const ic_pending = 'assets/icons/ic_pending.png';
 const ic_coupon_prefix = 'assets/icons/ic_discount_prefix.png';
 const ic_share = 'assets/icons/ic_share.png';

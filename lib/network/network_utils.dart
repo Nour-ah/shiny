@@ -1,7 +1,9 @@
+// network/network_utils.dart
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:booking_system_flutter/main.dart';
+import 'package:booking_system_flutter/model/provider_info_response.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/configs.dart';
@@ -10,6 +12,7 @@ import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../model/provider_info_response.dart';
 
 Map<String, String> buildHeaderTokens() {
   Map<String, String> header = {};
@@ -140,6 +143,51 @@ Future handleResponse(Response response,
     return response.body;
   } else {
     throw errorSomethingWentWrong;
+  }
+}
+
+//editing
+// Future<int> getProviderAge(int providerId) async {
+//   try {
+//     ProviderInfoResponse res = await getProviderDetail(providerId);
+//     return res.userData?.age ?? 0; // Default to 0 if age is missing
+//   } catch (e) {
+//     return 0; // Handle errors gracefully
+//   }
+// }
+
+// Future<String> getProviderGender(int providerId) async {
+//   try {
+//     ProviderInfoResponse res = await getProviderDetail(providerId);
+//     return res.userData?.gender ?? "Unknown"; // Default to "Unknown" if missing
+//   } catch (e) {
+//     return "Unknown"; // Handle errors gracefully
+//   }
+// }
+
+Future<int> getProviderAge(int providerId) async {
+  try {
+    ProviderInfoResponse res = ProviderInfoResponse.fromJson(
+        await handleResponse(await buildHttpResponse(
+            'update-profile?id=$providerId',
+            method: HttpMethodType.GET)));
+
+    return res.userData?.age ?? 0; // Default to 0 if age is missing
+  } catch (e) {
+    return 0; // Handle errors gracefully
+  }
+}
+
+Future<String> getProviderGender(int providerId) async {
+  try {
+    ProviderInfoResponse res = ProviderInfoResponse.fromJson(
+        await handleResponse(await buildHttpResponse(
+            'update-profile?id=$providerId',
+            method: HttpMethodType.GET)));
+
+    return res.userData?.gender ?? "Unknown"; // Default to "Unknown" if missing
+  } catch (e) {
+    return "Unknown"; // Handle errors gracefully
   }
 }
 

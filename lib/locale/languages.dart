@@ -1,7 +1,9 @@
+// locale/languages.dart
 import 'package:flutter/material.dart';
 
 abstract class BaseLanguage {
-  static BaseLanguage of(BuildContext context) => Localizations.of<BaseLanguage>(context, BaseLanguage)!;
+  static BaseLanguage of(BuildContext context) =>
+      Localizations.of<BaseLanguage>(context, BaseLanguage)!;
 
   String get walkTitle1;
 
@@ -12,6 +14,15 @@ abstract class BaseLanguage {
   String get getStarted;
 
   String get signIn;
+
+  String get selectAge;
+  String get selectGender;
+  String get male;
+  String get female;
+  // String get ageRange1;
+  // String get ageRange2;
+  // String get ageRange3;
+  // String get ageRange4;
 
   String get signUp;
 
@@ -32,6 +43,8 @@ abstract class BaseLanguage {
   String get confirm;
 
   String get hintEmailTxt;
+
+  String get hintIdentifierTxt;
 
   String get forgotPassword;
 

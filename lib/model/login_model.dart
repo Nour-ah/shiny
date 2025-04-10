@@ -1,3 +1,4 @@
+// model/login_model.dart
 import 'package:booking_system_flutter/model/user_data_model.dart';
 
 class LoginResponse {
@@ -10,7 +11,9 @@ class LoginResponse {
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-      userData: json['data'] != null ? UserData.fromJson(json['data']) : null,
+      userData: json['data']['user'] != null
+          ? UserData.fromJson(json['data']['user'])
+          : null,
       isUserExist: json['is_user_exist'],
       status: json['status'],
       message: json['message'],
@@ -37,7 +40,10 @@ class VerificationModel {
   VerificationModel({this.status, this.message, this.isEmailVerified});
 
   factory VerificationModel.fromJson(Map<String, dynamic> json) {
-    return VerificationModel(status: json['status'], message: json['message'], isEmailVerified: json['is_email_verified']);
+    return VerificationModel(
+        status: json['status'],
+        message: json['message'],
+        isEmailVerified: json['is_email_verified']);
   }
 
   Map<String, dynamic> toJson() {

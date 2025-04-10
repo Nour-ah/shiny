@@ -1,8 +1,11 @@
+// screens/filter/component/filter_age_type_component.dart
+import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../app_theme.dart';
+import '../../../locale/app_localizations.dart';
 import '../../../main.dart';
 import '../../../utils/common.dart';
 import '../../../utils/constant.dart';
@@ -194,6 +197,74 @@ class _FilterAgeTypeComponentState extends State<FilterAgeTypeComponent> {
             ),
           ),
         )
+      ],
+    );
+  }
+}
+
+class FilterDropdownComponent extends StatelessWidget {
+  final String? selectedAgeRange;
+  final String? selectedGender;
+  final Function(String?) onAgeChanged;
+  final Function(String?) onGenderChanged;
+
+  final List<String> ageRanges = ["18-25", "26-35", "36-50", "50+"];
+
+  FilterDropdownComponent({
+    required this.selectedAgeRange,
+    required this.selectedGender,
+    required this.onAgeChanged,
+    required this.onGenderChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Map<String, String> genderOptions = {
+      "Male": language.male,
+      "Female": language.female,
+    };
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        DropdownButton<String>(
+          value: selectedAgeRange,
+          hint: Text(
+            language.selectAge,
+            style:
+                TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
+          ),
+          items: ageRanges.map((String age) {
+            return DropdownMenuItem<String>(
+              value: age,
+              child: Text(
+                age,
+                style: TextStyle(color: Colors.grey),
+              ),
+            );
+          }).toList(),
+          onChanged: onAgeChanged,
+        ),
+        DropdownButton<String>(
+          value: selectedGender,
+          hint: Text(
+            language.selectGender,
+            style:
+                TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
+          ),
+          items: genderOptions.entries.map((entry) {
+            return DropdownMenuItem<String>(
+              value: entry.key,
+              child: Text(
+                entry.value,
+                style: TextStyle(color: Colors.grey),
+                //style: TextStyle(
+                //    color: Theme.of(context).textTheme.bodyLarge!.color),
+              ),
+            );
+          }).toList(),
+          onChanged: onGenderChanged,
+        ),
       ],
     );
   }

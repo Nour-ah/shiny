@@ -1,3 +1,4 @@
+// services/base_services.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -12,7 +13,8 @@ abstract class BaseService {
     return doc;
   }
 
-  Future<DocumentReference> addDocumentWithCustomId(String id, Map<String, dynamic> data) async {
+  Future<DocumentReference> addDocumentWithCustomId(
+      String id, Map<String, dynamic> data) async {
     var doc = ref!.doc(id);
 
     return await doc.set(data).then((value) {
@@ -25,7 +27,8 @@ abstract class BaseService {
     });
   }
 
-  Future<void> updateDocument(Map<String, dynamic> data, String? id) => ref!.doc(id).update(data);
+  Future<void> updateDocument(Map<String, dynamic> data, String? id) =>
+      ref!.doc(id).update(data);
 
   Future<void> removeDocument(String id) => ref!.doc(id).delete();
 

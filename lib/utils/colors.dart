@@ -1,3 +1,4 @@
+// utils/colors.dart
 import 'package:booking_system_flutter/utils/configs.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ const rejected = Color(0xFF8D0E06);
 const failed = Color(0xFFC41520);
 const completed = Color(0xFF3CAE5C);
 const defaultStatus = Color(0xFF3CAE5C);
-const pendingApprovalColor = Color(0xFF690AD3);
+const pendingApprovalColor = Color(0xFF0079C5);
 const waiting = Color(0xFF2CAFAF);
 
 const add_booking = Color(0xFFEA2F2F);
