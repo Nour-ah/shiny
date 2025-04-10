@@ -14,7 +14,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="Handyman Service User"
+        android:label="Shiny Service User"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:label">
         <meta-data

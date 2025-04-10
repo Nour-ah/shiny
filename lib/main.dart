@@ -1,3 +1,4 @@
+// main.dart
 import 'package:booking_system_flutter/app_theme.dart';
 import 'package:booking_system_flutter/locale/app_localizations.dart';
 import 'package:booking_system_flutter/locale/language_en.dart';
@@ -99,7 +100,8 @@ void main() async {
     /// Firebase Notification
     initFirebaseMessaging();
     if (kReleaseMode) {
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
     }
   });
 
@@ -120,14 +122,16 @@ void main() async {
   await initialize();
   localeLanguageList = languageList();
 
-  int themeModeIndex = getIntAsync(THEME_MODE_INDEX, defaultValue: THEME_MODE_SYSTEM);
+  int themeModeIndex =
+      getIntAsync(THEME_MODE_INDEX, defaultValue: THEME_MODE_SYSTEM);
   if (themeModeIndex == THEME_MODE_LIGHT) {
     appStore.setDarkMode(false);
   } else if (themeModeIndex == THEME_MODE_DARK) {
     appStore.setDarkMode(true);
   }
 
-  defaultToastBackgroundColor = appStore.isDarkMode ? Colors.white : Colors.black;
+  defaultToastBackgroundColor =
+      appStore.isDarkMode ? Colors.white : Colors.black;
   defaultToastTextColor = appStore.isDarkMode ? Colors.black : Colors.white;
 
   runApp(MyApp());
@@ -163,8 +167,9 @@ class _MyAppState extends State<MyApp> {
                 home: SplashScreen(),
                 theme: AppTheme.lightTheme(color: snap.data),
                 darkTheme: AppTheme.darkTheme(color: snap.data),
-                themeMode: appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-                title: APP_NAME,
+                themeMode:
+                    appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                //title: APP_NAME,
                 supportedLocales: LanguageDataModel.languageLocales(),
                 localizationsDelegates: [
                   AppLocalizations(),
@@ -175,7 +180,8 @@ class _MyAppState extends State<MyApp> {
                 builder: (context, child) {
                   return MediaQuery(
                     child: child!,
-                    data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: TextScaler.linear(1.0)),
                   );
                 },
                 localeResolutionCallback: (locale, supportedLocales) => locale,

@@ -1,3 +1,4 @@
+// utils/common.dart
 import 'dart:io';
 
 import 'package:booking_system_flutter/component/app_common_dialog.dart';
@@ -30,7 +31,8 @@ import '../component/cached_image_widget.dart';
 import 'app_configuration.dart';
 import 'constant.dart';
 
-Future<bool> get isIqonicProduct async => await getPackageName() == appPackageName;
+Future<bool> get isIqonicProduct async =>
+    await getPackageName() == appPackageName;
 
 bool get isUserTypeHandyman => appStore.userType == USER_TYPE_HANDYMAN;
 
@@ -46,16 +48,46 @@ bool get isLoginTypeApple => appStore.loginType == LOGIN_TYPE_APPLE;
 
 bool get isLoginTypeOTP => appStore.loginType == LOGIN_TYPE_OTP;
 
-ThemeMode get appThemeMode => appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+ThemeMode get appThemeMode =>
+    appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light;
 
 bool get isRTL => RTL_LanguageS.contains(appStore.selectedLanguageCode);
 
-Future<void> commonLaunchUrl(String address, {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
-  await launchUrl(Uri.parse(address), mode: launchMode).catchError((e) {
-    toast('${language.invalidURL}: $address');
+// Future<void> commonLaunchUrl(String address,
+//     {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
+//   await launchUrl(Uri.parse(address), mode: launchMode).catchError((e) {
+//     toast('${language.invalidURL}: $address');
 
+//     throw e;
+//   });
+// }
+
+Future<void> commonLaunchUrl(String address,
+    {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
+  if (address.isEmpty) {
+    toast('${language.invalidURL}: $address');
+    return;
+  }
+  print('🔗 Trying to launch: $address');
+
+  Uri uri = Uri.parse(address);
+
+  // Don't use inAppWebView for non-http/https URLs
+  if ((launchMode == LaunchMode.inAppWebView ||
+          launchMode == LaunchMode.inAppBrowserView) &&
+      !(uri.scheme == 'http' || uri.scheme == 'https')) {
+    toast('Cannot open this link inside the app: $address');
+    return;
+  }
+
+  bool launched = await launchUrl(uri, mode: launchMode).catchError((e) {
+    toast('${language.invalidURL}: $address');
     throw e;
   });
+
+  if (!launched) {
+    toast('Could not launch $address');
+  }
 }
 
 void viewFiles(String url) {
@@ -64,18 +96,28 @@ void viewFiles(String url) {
   }
 }
 
+// void launchCall(String? url) {
+//   if (url.validate().isNotEmpty) {
+//     if (isIOS)
+//       commonLaunchUrl('tel://' + url!,
+//           launchMode: LaunchMode.externalApplication);
+//     else
+//       commonLaunchUrl('tel:' + url!,
+//           launchMode: LaunchMode.externalApplication);
+//   }
+// }
+
 void launchCall(String? url) {
   if (url.validate().isNotEmpty) {
-    if (isIOS)
-      commonLaunchUrl('tel://' + url!, launchMode: LaunchMode.externalApplication);
-    else
-      commonLaunchUrl('tel:' + url!, launchMode: LaunchMode.externalApplication);
+    final uri = isIOS ? 'tel://' + url! : 'tel:' + url!;
+    commonLaunchUrl(uri, launchMode: LaunchMode.externalApplication);
   }
 }
 
 void launchMap(String? url) {
   if (url.validate().isNotEmpty) {
-    commonLaunchUrl(GOOGLE_MAP_PREFIX + Uri.encodeFull(url!), launchMode: LaunchMode.externalApplication);
+    commonLaunchUrl(GOOGLE_MAP_PREFIX + Uri.encodeFull(url!),
+        launchMode: LaunchMode.externalApplication);
   }
 }
 
@@ -106,14 +148,16 @@ void launchUrlCustomTab(String? url) {
       Uri.parse(url!),
       customTabsOptions: custom_tabs.CustomTabsOptions(
         showTitle: true,
-        colorSchemes: custom_tabs.CustomTabsColorSchemes.defaults(toolbarColor: primaryColor),
+        colorSchemes: custom_tabs.CustomTabsColorSchemes.defaults(
+            toolbarColor: primaryColor),
       ),
       safariVCOptions: custom_tabs.SafariViewControllerOptions(
         preferredBarTintColor: primaryColor,
         preferredControlTintColor: Colors.white,
         barCollapsingEnabled: true,
         entersReaderIfAvailable: true,
-        dismissButtonStyle: custom_tabs.SafariViewControllerDismissButtonStyle.close,
+        dismissButtonStyle:
+            custom_tabs.SafariViewControllerDismissButtonStyle.close,
       ),
     );
   }
@@ -121,15 +165,47 @@ void launchUrlCustomTab(String? url) {
 
 List<LanguageDataModel> languageList() {
   return [
-    LanguageDataModel(id: 1, name: 'English', languageCode: 'en', fullLanguageCode: 'en-US', flag: 'assets/flag/ic_us.png'),
-    LanguageDataModel(id: 2, name: 'Hindi', languageCode: 'hi', fullLanguageCode: 'hi-IN', flag: 'assets/flag/ic_india.png'),
-    LanguageDataModel(id: 3, name: 'Arabic', languageCode: 'ar', fullLanguageCode: 'ar-AR', flag: 'assets/flag/ic_ar.png'),
-    LanguageDataModel(id: 4, name: 'French', languageCode: 'fr', fullLanguageCode: 'fr-FR', flag: 'assets/flag/ic_fr.png'),
-    LanguageDataModel(id: 5, name: 'German', languageCode: 'de', fullLanguageCode: 'de-DE', flag: 'assets/flag/ic_de.png'),
+    LanguageDataModel(
+        id: 1,
+        name: 'English',
+        languageCode: 'en',
+        fullLanguageCode: 'en-US',
+        flag: 'assets/flag/ic_us.png'),
+    LanguageDataModel(
+        id: 2,
+        name: 'Hindi',
+        languageCode: 'hi',
+        fullLanguageCode: 'hi-IN',
+        flag: 'assets/flag/ic_india.png'),
+    LanguageDataModel(
+        id: 3,
+        name: 'Arabic',
+        languageCode: 'ar',
+        fullLanguageCode: 'ar-AR',
+        flag: 'assets/flag/ic_ar.png'),
+    LanguageDataModel(
+        id: 4,
+        name: 'French',
+        languageCode: 'fr',
+        fullLanguageCode: 'fr-FR',
+        flag: 'assets/flag/ic_fr.png'),
+    LanguageDataModel(
+        id: 5,
+        name: 'German',
+        languageCode: 'de',
+        fullLanguageCode: 'de-DE',
+        flag: 'assets/flag/ic_de.png'),
   ];
 }
 
-InputDecoration inputDecoration(BuildContext context, {Widget? prefixIcon, String? labelText, String? hintText, double? borderRadius, bool? counter, String? counterText,  Color? fillColor}) {
+InputDecoration inputDecoration(BuildContext context,
+    {Widget? prefixIcon,
+    String? labelText,
+    String? hintText,
+    double? borderRadius,
+    bool? counter,
+    String? counterText,
+    Color? fillColor}) {
   return InputDecoration(
     contentPadding: EdgeInsets.only(left: 12, bottom: 10, top: 10, right: 10),
     labelText: labelText,
@@ -174,27 +250,48 @@ String parseHtmlString(String? htmlString) {
   return parse(parse(htmlString).body!.text).documentElement!.text;
 }
 
-String formatDate(String? dateTime, {bool isFromMicrosecondsSinceEpoch = false, bool isLanguageNeeded = true, bool isTime = false, bool showDateWithTime = false}) {
+String formatDate(String? dateTime,
+    {bool isFromMicrosecondsSinceEpoch = false,
+    bool isLanguageNeeded = true,
+    bool isTime = false,
+    bool showDateWithTime = false}) {
   final languageCode = isLanguageNeeded ? appStore.selectedLanguageCode : null;
-  final parsedDateTime = isFromMicrosecondsSinceEpoch ? DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000) : DateTime.parse(dateTime.validate());
+  final parsedDateTime = isFromMicrosecondsSinceEpoch
+      ? DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000)
+      : DateTime.parse(dateTime.validate());
   if (isTime) {
-    return DateFormat('${getStringAsync(TIME_FORMAT)}', languageCode).format(parsedDateTime);
+    return DateFormat('${getStringAsync(TIME_FORMAT)}', languageCode)
+        .format(parsedDateTime);
   } else {
     if (getStringAsync(DATE_FORMAT).validate().contains('dS')) {
       int day = parsedDateTime.day;
-      if (DateFormat('${getStringAsync(DATE_FORMAT)}', languageCode).format(parsedDateTime).contains('$day')) {
-        return DateFormat('${getStringAsync(DATE_FORMAT).replaceAll('S', '')}${showDateWithTime ? ' ${getStringAsync(TIME_FORMAT)}' : ''}', languageCode)
+      if (DateFormat('${getStringAsync(DATE_FORMAT)}', languageCode)
+          .format(parsedDateTime)
+          .contains('$day')) {
+        return DateFormat(
+                '${getStringAsync(DATE_FORMAT).replaceAll('S', '')}${showDateWithTime ? ' ${getStringAsync(TIME_FORMAT)}' : ''}',
+                languageCode)
             .format(parsedDateTime)
             .replaceFirst('$day', '${addOrdinalSuffix(day)}');
       }
     }
-    return DateFormat('${getStringAsync(DATE_FORMAT)}${showDateWithTime ? ' ${getStringAsync(TIME_FORMAT)}' : ''}', languageCode).format(parsedDateTime);
+    return DateFormat(
+            '${getStringAsync(DATE_FORMAT)}${showDateWithTime ? ' ${getStringAsync(TIME_FORMAT)}' : ''}',
+            languageCode)
+        .format(parsedDateTime);
   }
 }
 
-String formatBookingDate(String? dateTime, {String format = DATE_FORMAT_1, bool isFromMicrosecondsSinceEpoch = false, bool isLanguageNeeded = true, bool isTime = false, bool showDateWithTime = false}) {
+String formatBookingDate(String? dateTime,
+    {String format = DATE_FORMAT_1,
+    bool isFromMicrosecondsSinceEpoch = false,
+    bool isLanguageNeeded = true,
+    bool isTime = false,
+    bool showDateWithTime = false}) {
   final languageCode = isLanguageNeeded ? appStore.selectedLanguageCode : null;
-  final parsedDateTime = isFromMicrosecondsSinceEpoch ? DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000) : DateTime.parse(dateTime.validate());
+  final parsedDateTime = isFromMicrosecondsSinceEpoch
+      ? DateTime.fromMicrosecondsSinceEpoch(dateTime.validate().toInt() * 1000)
+      : DateTime.parse(dateTime.validate());
 
   return DateFormat(format, languageCode).format(parsedDateTime);
 }
@@ -202,13 +299,15 @@ String formatBookingDate(String? dateTime, {String format = DATE_FORMAT_1, bool 
 String getSlotWithDate({required String date, required String slotTime}) {
   DateTime originalDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').parse(date);
   DateTime newTime = DateFormat('HH:mm:ss').parse(slotTime);
-  DateTime newDateTime = DateTime(originalDateTime.year, originalDateTime.month, originalDateTime.day, newTime.hour, newTime.minute, newTime.second);
+  DateTime newDateTime = DateTime(originalDateTime.year, originalDateTime.month,
+      originalDateTime.day, newTime.hour, newTime.minute, newTime.second);
   return DateFormat('yyyy-MM-dd HH:mm:ss').format(newDateTime);
 }
 
 String getConfirmBookingDateFormat({required String date}) {
   DateTime originalDateTime = DateFormat('yyyy-MM-dd HH:mm:ss').parse(date);
-  return DateFormat("d MMMM, yyyy, 'at' h:mm a").format(originalDateTime);}
+  return DateFormat("d MMMM, yyyy, 'at' h:mm a").format(originalDateTime);
+}
 
 String getDateFormat(String phpFormat) {
   final formatMapping = {
@@ -410,9 +509,12 @@ String calculateTimer(int secTime) {
 
   seconds = secTime - (hour * 3600) - (minute * 60);
 
-  String hourLeft = hour.toString().length < 2 ? "0" + hour.toString() : hour.toString();
+  String hourLeft =
+      hour.toString().length < 2 ? "0" + hour.toString() : hour.toString();
 
-  String minuteLeft = minute.toString().length < 2 ? "0" + minute.toString() : minute.toString();
+  String minuteLeft = minute.toString().length < 2
+      ? "0" + minute.toString()
+      : minute.toString();
 
   String minutes = minuteLeft == '00' ? '01' : minuteLeft;
 
@@ -439,7 +541,9 @@ String convertToHourMinute(String timeStr) {
     result += '${hours}${language.lblHr}';
   }
   if (minutes > 0) {
-    result = (result.validate().isNotEmpty) ? '$result $minutes ${language.min}' : '$minutes ${language.min}';
+    result = (result.validate().isNotEmpty)
+        ? '$result $minutes ${language.min}'
+        : '$minutes ${language.min}';
   }
   return result;
 }
@@ -447,7 +551,8 @@ String convertToHourMinute(String timeStr) {
 String getPaymentStatusFilterText(String? status) {
   if (status!.isEmpty) {
     return language.lblPending;
-  } else if (status == SERVICE_PAYMENT_STATUS_PAID || status == PENDING_BY_ADMIN) {
+  } else if (status == SERVICE_PAYMENT_STATUS_PAID ||
+      status == PENDING_BY_ADMIN) {
     return language.paid;
   } else if (status == SERVICE_PAYMENT_STATUS_ADVANCE_PAID) {
     return language.advancePaid;
@@ -463,12 +568,16 @@ String getPaymentStatusFilterText(String? status) {
 String getPaymentStatusText(String? status, String? method) {
   if (status!.isEmpty) {
     return language.lblPending;
-  } else if (status == SERVICE_PAYMENT_STATUS_PAID || status == PENDING_BY_ADMIN) {
+  } else if (status == SERVICE_PAYMENT_STATUS_PAID ||
+      status == PENDING_BY_ADMIN) {
     return language.paid;
   } else if (status == SERVICE_PAYMENT_STATUS_ADVANCE_PAID) {
     return language.advancePaid;
-  } else if ((status == SERVICE_PAYMENT_STATUS_PENDING || status == 'pending_approval') && method == PAYMENT_METHOD_COD) {
-    return language.pendingApproval;  //TODO: check this condition 'pending_approval' status not coming from backend
+  } else if ((status == SERVICE_PAYMENT_STATUS_PENDING ||
+          status == 'pending_approval') &&
+      method == PAYMENT_METHOD_COD) {
+    return language
+        .pendingApproval; //TODO: check this condition 'pending_approval' status not coming from backend
   } else if (status == SERVICE_PAYMENT_STATUS_PENDING) {
     return language.lblPending;
   } else if (status == SERVICE_PAYMENT_STATUS_ADVANCE_REFUND) {
@@ -518,17 +627,23 @@ Widget get trailing {
   return ic_arrow_right.iconImage(size: 16);
 }
 
-void showNewUpdateDialog(BuildContext context, {required int currentAppVersionCode}) async {
+void showNewUpdateDialog(BuildContext context,
+    {required int currentAppVersionCode}) async {
   showInDialog(
     context,
     contentPadding: EdgeInsets.zero,
-    barrierDismissible: currentAppVersionCode >= getIntAsync(USER_APP_MINIMUM_VERSION).toInt(),
+    barrierDismissible:
+        currentAppVersionCode >= getIntAsync(USER_APP_MINIMUM_VERSION).toInt(),
     builder: (_) {
       return WillPopScope(
         onWillPop: () {
-          return Future(() => currentAppVersionCode >= getIntAsync(USER_APP_MINIMUM_VERSION).toInt());
+          return Future(() =>
+              currentAppVersionCode >=
+              getIntAsync(USER_APP_MINIMUM_VERSION).toInt());
         },
-        child: NewUpdateDialog(canClose: currentAppVersionCode >= getIntAsync(USER_APP_MINIMUM_VERSION).toInt()),
+        child: NewUpdateDialog(
+            canClose: currentAppVersionCode >=
+                getIntAsync(USER_APP_MINIMUM_VERSION).toInt()),
       );
     },
   );
@@ -537,10 +652,16 @@ void showNewUpdateDialog(BuildContext context, {required int currentAppVersionCo
 Future<void> showForceUpdateDialog(BuildContext context) async {
   if (getBoolAsync(UPDATE_NOTIFY, defaultValue: true)) {
     getPackageInfo().then((value) {
-      if (isAndroid && getIntAsync(USER_APP_LATEST_VERSION).toInt() > value.versionCode.validate().toInt()) {
-        showNewUpdateDialog(context, currentAppVersionCode: value.versionCode.validate().toInt());
-      } else if (isIOS && getIntAsync(USER_APP_LATEST_VERSION).toInt() > value.versionCode.validate().toInt()) {
-        showNewUpdateDialog(context, currentAppVersionCode: value.versionCode.validate().toInt());
+      if (isAndroid &&
+          getIntAsync(USER_APP_LATEST_VERSION).toInt() >
+              value.versionCode.validate().toInt()) {
+        showNewUpdateDialog(context,
+            currentAppVersionCode: value.versionCode.validate().toInt());
+      } else if (isIOS &&
+          getIntAsync(USER_APP_LATEST_VERSION).toInt() >
+              value.versionCode.validate().toInt()) {
+        showNewUpdateDialog(context,
+            currentAppVersionCode: value.versionCode.validate().toInt());
       }
     });
   }
@@ -550,7 +671,9 @@ bool checkTimeDifference({required DateTime inputDateTime}) {
   DateTime currentTime = DateTime.now();
 
   log("Booking Time Diffrence ==> ${inputDateTime.difference(currentTime).inHours}");
-  if (currentTime.isBefore(inputDateTime) && inputDateTime.difference(currentTime).inHours <= appConfigurationStore.cancellationChargeHours) {
+  if (currentTime.isBefore(inputDateTime) &&
+      inputDateTime.difference(currentTime).inHours <=
+          appConfigurationStore.cancellationChargeHours) {
     return true;
   }
 
@@ -575,7 +698,8 @@ String bankAccountWidget(String accountNo) {
 Widget mobileNumberInfoWidget(BuildContext context) {
   return RichTextWidget(
     list: [
-      TextSpan(text: '${language.addYourCountryCode}', style: secondaryTextStyle()),
+      TextSpan(
+          text: '${language.addYourCountryCode}', style: secondaryTextStyle()),
       TextSpan(text: ' "91-", "236-" ', style: boldTextStyle(size: 12)),
       TextSpan(
         text: ' (${language.help})',
@@ -614,7 +738,8 @@ class OptionListWidget extends StatelessWidget {
               ),
             ),
             8.width,
-            Text("|", style: secondaryTextStyle()).visible(optionList.length != index + 1),
+            Text("|", style: secondaryTextStyle())
+                .visible(optionList.length != index + 1),
             8.width,
           ],
         ),
@@ -667,7 +792,9 @@ void share({required String url, required BuildContext context}) {
   if (Platform.isIOS) {
     try {
       final box = context.findRenderObject() as RenderBox?;
-      Share.share(url, subject: "", sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+      Share.share(url,
+          subject: "",
+          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
     } catch (e) {
       log('Failed to share: $e');
     }
@@ -682,7 +809,8 @@ Future<List<File>> getMultipleImageSource({bool isCamera = true}) async {
 }
 
 Future<File> getCameraImage({bool isCamera = true}) async {
-  final pickedImage = await ImagePicker().pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+  final pickedImage = await ImagePicker()
+      .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
   return File(pickedImage!.path);
 }
 
@@ -712,23 +840,39 @@ class MultiLanguageWidget extends StatelessWidget {
                       onTap(languageData);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: appStore.selectedLanguage.languageCode == languageData.languageCode ? primaryColor : context.scaffoldBackgroundColor,
+                      backgroundColor: appStore.selectedLanguage.languageCode ==
+                              languageData.languageCode
+                          ? primaryColor
+                          : context.scaffoldBackgroundColor,
                       elevation: 0,
                       side: BorderSide(width: 1, color: context.iconColor),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CachedImageWidget(url: languageData.flag.validate(), height: 16),
+                        CachedImageWidget(
+                            url: languageData.flag.validate(), height: 16),
                         4.width,
-                        Text(languageData.name.validate().toUpperCase(), style: secondaryTextStyle(color: appStore.selectedLanguage.languageCode == languageData.languageCode ? white : textSecondaryColorGlobal))
+                        Text(languageData.name.validate().toUpperCase(),
+                            style: secondaryTextStyle(
+                                color: appStore.selectedLanguage.languageCode ==
+                                        languageData.languageCode
+                                    ? white
+                                    : textSecondaryColorGlobal))
                       ],
                     ),
-                  ).paddingOnly(right: 8, left: languageList().first.languageCode == languageData.languageCode ? 16 : 0);
+                  ).paddingOnly(
+                      right: 8,
+                      left: languageList().first.languageCode ==
+                              languageData.languageCode
+                          ? 16
+                          : 0);
                 },
               ),
             ),

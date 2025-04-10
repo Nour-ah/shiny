@@ -1,3 +1,4 @@
+// screens/about_screen.dart
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
@@ -24,7 +25,8 @@ class _AboutScreenState extends State<AboutScreen> {
   }
 
   void init() async {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white, statusBarBrightness: Brightness.light));
   }
 
   @override
@@ -56,12 +58,16 @@ class _AboutScreenState extends State<AboutScreen> {
                   height: 80,
                   width: 80,
                   padding: EdgeInsets.all(16),
-                  decoration: boxDecorationWithRoundedCorners(borderRadius: radius(), backgroundColor: context.scaffoldBackgroundColor),
+                  decoration: boxDecorationWithRoundedCorners(
+                      borderRadius: radius(),
+                      backgroundColor: context.scaffoldBackgroundColor),
                   child: Column(
                     children: [
                       Image.asset(ic_calling, height: 22, color: primaryColor),
                       4.height,
-                      Text(language.lblCall, style: secondaryTextStyle(), textAlign: TextAlign.center),
+                      Text(language.lblCall,
+                          style: secondaryTextStyle(),
+                          textAlign: TextAlign.center),
                     ],
                   ),
                 ).onTap(
@@ -78,12 +84,16 @@ class _AboutScreenState extends State<AboutScreen> {
                   height: 80,
                   width: 80,
                   padding: EdgeInsets.all(16),
-                  decoration: boxDecorationWithRoundedCorners(borderRadius: radius(), backgroundColor: context.scaffoldBackgroundColor),
+                  decoration: boxDecorationWithRoundedCorners(
+                      borderRadius: radius(),
+                      backgroundColor: context.scaffoldBackgroundColor),
                   child: Column(
                     children: [
                       Image.asset(ic_message, height: 22, color: primaryColor),
                       4.height,
-                      Text(language.email, style: secondaryTextStyle(), textAlign: TextAlign.center),
+                      Text(language.email,
+                          style: secondaryTextStyle(),
+                          textAlign: TextAlign.center),
                     ],
                   ),
                 ).onTap(
@@ -99,7 +109,8 @@ class _AboutScreenState extends State<AboutScreen> {
           25.height,
           Align(
             alignment: Alignment.centerLeft,
-            child: Text(parseHtmlString(getStringAsync(SITE_DESCRIPTION)), style: primaryTextStyle(), textAlign: TextAlign.justify),
+            child: Text(parseHtmlString(getStringAsync(SITE_DESCRIPTION)),
+                style: primaryTextStyle(), textAlign: TextAlign.justify),
           ),
           30.height,
           Padding(
@@ -110,36 +121,48 @@ class _AboutScreenState extends State<AboutScreen> {
                 if (getStringAsync(FACEBOOK_URL).isNotEmpty)
                   IconButton(
                     icon: Image.asset(ic_facebook, height: 35),
+                    // onPressed: () {
+                    //   commonLaunchUrl(getStringAsync(FACEBOOK_URL), launchMode: LaunchMode.externalApplication);
+                    // },
                     onPressed: () {
-                      commonLaunchUrl(getStringAsync(FACEBOOK_URL), launchMode: LaunchMode.externalApplication);
+                      final url = getStringAsync(FACEBOOK_URL);
+                      print(
+                          'Facebook URL: $url'); // 👈 Add this here for debugging
+
+                      commonLaunchUrl(url,
+                          launchMode: LaunchMode.externalApplication);
                     },
                   ).expand(),
                 if (getStringAsync(INSTAGRAM_URL).isNotEmpty)
                   IconButton(
                     icon: Image.asset(ic_instagram, height: 35),
                     onPressed: () {
-                      commonLaunchUrl(getStringAsync(INSTAGRAM_URL), launchMode: LaunchMode.externalApplication);
+                      commonLaunchUrl(getStringAsync(INSTAGRAM_URL),
+                          launchMode: LaunchMode.externalApplication);
                     },
                   ).expand(),
                 if (getStringAsync(TWITTER_URL).isNotEmpty)
                   IconButton(
                     icon: Image.asset(ic_twitter, height: 35),
                     onPressed: () {
-                      commonLaunchUrl(getStringAsync(TWITTER_URL), launchMode: LaunchMode.externalApplication);
+                      commonLaunchUrl(getStringAsync(TWITTER_URL),
+                          launchMode: LaunchMode.externalApplication);
                     },
                   ).expand(),
                 if (getStringAsync(LINKEDIN_URL).isNotEmpty)
                   IconButton(
                     icon: Image.asset(ic_linkedIN, height: 35),
                     onPressed: () {
-                      commonLaunchUrl(getStringAsync(LINKEDIN_URL), launchMode: LaunchMode.externalApplication);
+                      commonLaunchUrl(getStringAsync(LINKEDIN_URL),
+                          launchMode: LaunchMode.externalApplication);
                     },
                   ).expand(),
                 if (getStringAsync(YOUTUBE_URL).isNotEmpty)
                   IconButton(
                     icon: Image.asset(ic_youtube, height: 35),
                     onPressed: () {
-                      commonLaunchUrl(getStringAsync(YOUTUBE_URL), launchMode: LaunchMode.externalApplication);
+                      commonLaunchUrl(getStringAsync(YOUTUBE_URL),
+                          launchMode: LaunchMode.externalApplication);
                     },
                   ).expand(),
               ],

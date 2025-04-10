@@ -1,3 +1,4 @@
+// services/user_services.dart
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
@@ -15,9 +16,14 @@ class UserService extends BaseService {
   }
 
   Future<UserData> getUser({String? key, String? email}) {
-    return ref!.where(key ?? "email", isEqualTo: email).limit(1).get().then((value) {
+    return ref!
+        .where(key ?? "email", isEqualTo: email)
+        .limit(1)
+        .get()
+        .then((value) {
       if (value.docs.isNotEmpty) {
-        return UserData.fromJson(value.docs.first.data() as Map<String, dynamic>);
+        return UserData.fromJson(
+            value.docs.first.data() as Map<String, dynamic>);
       } else {
         throw language.userNotFound;
       }
@@ -25,9 +31,14 @@ class UserService extends BaseService {
   }
 
   Future<UserData?> getUserNull({String? key, String? email}) {
-    return ref!.where(key ?? "email", isEqualTo: email).limit(1).get().then((value) {
+    return ref!
+        .where(key ?? "email", isEqualTo: email)
+        .limit(1)
+        .get()
+        .then((value) {
       if (value.docs.isNotEmpty) {
-        return UserData.fromJson(value.docs.first.data() as Map<String, dynamic>);
+        return UserData.fromJson(
+            value.docs.first.data() as Map<String, dynamic>);
       } else {
         return null;
       }
@@ -35,7 +46,13 @@ class UserService extends BaseService {
   }
 
   Stream<List<UserData>> users({String? searchText}) {
-    return ref!.where('caseSearch', arrayContains: searchText.validate().isEmpty ? null : searchText!.toLowerCase()).snapshots().map((x) {
+    return ref!
+        .where('caseSearch',
+            arrayContains: searchText.validate().isEmpty
+                ? null
+                : searchText!.toLowerCase())
+        .snapshots()
+        .map((x) {
       return x.docs.map((y) {
         return UserData.fromJson(y.data() as Map<String, dynamic>);
       }).toList();
@@ -43,9 +60,14 @@ class UserService extends BaseService {
   }
 
   Future<UserData> userByEmail(String? email) async {
-    return await ref!.where('email', isEqualTo: email).limit(1).get().then((value) {
+    return await ref!
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .get()
+        .then((value) {
       if (value.docs.isNotEmpty) {
-        return UserData.fromJson(value.docs.first.data() as Map<String, dynamic>);
+        return UserData.fromJson(
+            value.docs.first.data() as Map<String, dynamic>);
       } else {
         throw '${language.lblNoUserFound}';
       }
@@ -60,11 +82,16 @@ class UserService extends BaseService {
 
   Future<UserData> userByMobileNumber(String? phone) async {
     log("Phone $phone");
-    return await ref!.where('phoneNumber', isEqualTo: phone).limit(1).get().then(
+    return await ref!
+        .where('phoneNumber', isEqualTo: phone)
+        .limit(1)
+        .get()
+        .then(
       (value) {
         log(value);
         if (value.docs.isNotEmpty) {
-          return UserData.fromJson(value.docs.first.data() as Map<String, dynamic>);
+          return UserData.fromJson(
+              value.docs.first.data() as Map<String, dynamic>);
         } else {
           throw "${language.lblNoUserFound}";
         }
@@ -72,14 +99,25 @@ class UserService extends BaseService {
     );
   }
 
-  Future<void> saveToContacts({required String senderId, required String receiverId}) async {
-    return ref!.doc(senderId).collection(CONTACT_COLLECTION).doc(receiverId).update({'lastMessageTime': DateTime.now().millisecondsSinceEpoch}).catchError((e) {
+  Future<void> saveToContacts(
+      {required String senderId, required String receiverId}) async {
+    return ref!
+        .doc(senderId)
+        .collection(CONTACT_COLLECTION)
+        .doc(receiverId)
+        .update({
+      'lastMessageTime': DateTime.now().millisecondsSinceEpoch
+    }).catchError((e) {
       throw "${language.lblUserNotCreated}";
     });
   }
 
-  Future<bool> isReceiverInContacts({required String senderUserId, required String receiverUserId}) async {
-    final contactRef = ref!.doc(senderUserId).collection(CONTACT_COLLECTION).doc(receiverUserId);
+  Future<bool> isReceiverInContacts(
+      {required String senderUserId, required String receiverUserId}) async {
+    final contactRef = ref!
+        .doc(senderUserId)
+        .collection(CONTACT_COLLECTION)
+        .doc(receiverUserId);
 
     final contactSnapshot = await contactRef.get();
     return contactSnapshot.exists;
