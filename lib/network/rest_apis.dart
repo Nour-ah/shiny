@@ -35,6 +35,7 @@ import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../model/bank_list_response.dart';
