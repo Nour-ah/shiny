@@ -143,6 +143,12 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get selectGender => "اختر الجنس";
+  
+  @override
+  String get age => " العمر";
+
+  @override
+  String get gender => " الجنس";
 
   @override
   String get male => "ذكر";
@@ -377,7 +383,8 @@ class LanguageAr extends BaseLanguage {
   String get lblUseCurrentLocation => "استخدام الموقع الحالي";
 
   @override
-  String get lblEnterDescription => "أدخل الوصف";
+  String get lblEnterDescription =>
+      " أدخل وصفً أو ملخصً لسجل المريض في خدمات التمريض";
 
   @override
   String get lblPrice => "السعر";

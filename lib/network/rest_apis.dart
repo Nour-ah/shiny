@@ -655,6 +655,47 @@ Future<ProviderInfoResponse> getProviderDetail(int id, {int? userId}) async {
     throw e;
   }
 }
+//add
+
+Future<List<UserData>> getHandymanediting({
+  int? page,
+  String? userTypeHandyman = "handyman",
+  required List<UserData> list,
+  Function(bool)? lastPageCallback,
+  String? gender,
+  String? ageRange,
+}) async {
+  try {
+    String baseUrl =
+        'user-list?user_type=$userTypeHandyman&per_page=$PER_PAGE_ITEM&page=$page';
+
+    if (gender != null && gender.isNotEmpty) baseUrl += '&gender=$gender';
+    if (ageRange != null && ageRange.isNotEmpty) baseUrl += '&age=$ageRange';
+    print("Request URL: $baseUrl");
+
+    var res = ProviderListResponse.fromJson(
+      await handleResponse(await buildHttpResponse(
+        baseUrl,
+        method: HttpMethodType.GET,
+      )),
+    );
+
+    if (page == 1) list.clear();
+
+    list.addAll(res.providerList.validate());
+
+    lastPageCallback?.call(res.providerList.validate().length != PER_PAGE_ITEM);
+
+    cachedHandymanList = res.providerList;
+
+    appStore.setLoading(false);
+  } catch (e) {
+    appStore.setLoading(false);
+    throw e;
+  }
+
+  return list;
+}
 
 Future<List<UserData>> getHandyman(
     {int? page,

@@ -36,45 +36,47 @@ class _FilterProviderListComponentState
   }
 
   Future<void> init() async {
-    future = getHandyman(
+    future = getHandymanediting(
       page: page,
       list: providerList,
       userTypeHandyman: USER_TYPE_PROVIDER,
+      gender: selectedGender,
+      ageRange: selectedAgeRange,
       lastPageCallback: (b) {
         isLastPage = b;
       },
     );
   }
 
-  void applyFilters() {
-    setState(() {
-      providerList = providerList.where((provider) {
-        bool matchesGender =
-            selectedGender == null || provider.gender == selectedGender;
-        bool matchesAge = selectedAgeRange == null ||
-            (provider.age != null &&
-                checkAgeRange(provider.age!, selectedAgeRange!));
-        ;
-        return matchesGender && matchesAge;
-      }).toList();
-    });
-  }
+  // void applyFilters() {
+  //   setState(() {
+  //     providerList = providerList.where((provider) {
+  //       bool matchesGender =
+  //           selectedGender == null || provider.gender == selectedGender;
+  //       bool matchesAge = selectedAgeRange == null ||
+  //           (provider.age != null &&
+  //               checkAgeRange(provider.age!, selectedAgeRange!));
+  //       ;
+  //       return matchesGender && matchesAge;
+  //     }).toList();
+  //   });
+  // }
 
-  bool checkAgeRange(int age, String range) {
-    if (age == null) return false;
-    switch (range) {
-      case '18-25':
-        return age >= 18 && age <= 25;
-      case '26-35':
-        return age >= 26 && age <= 35;
-      case '36-50':
-        return age >= 36 && age <= 50;
-      case '50+':
-        return age > 50;
-      default:
-        return true;
-    }
-  }
+  // // bool checkAgeRange(int age, String range) {
+  // //   if (age == null) return false;
+  // //   switch (range) {
+  // //     case '18-25':
+  //       return age >= 18 && age <= 25;
+  //     case '26-35':
+  //       return age >= 26 && age <= 35;
+  //     case '36-50':
+  //       return age >= 36 && age <= 50;
+  //     case '50+':
+  //       return age > 50;
+  //     default:
+  //       return true;
+  //   }
+  // }
 
   void setPageToOne() {
     page = 1;
@@ -108,13 +110,15 @@ class _FilterProviderListComponentState
             onAgeChanged: (value) {
               setState(() {
                 selectedAgeRange = value;
-                applyFilters();
+                setPageToOne();
+                //applyFilters();
               });
             },
             onGenderChanged: (value) {
               setState(() {
                 selectedGender = value;
-                applyFilters();
+                setPageToOne();
+                //applyFilters();
               });
             },
           ),
@@ -185,9 +189,26 @@ class _FilterProviderListComponentState
                               height: 45,
                             ),
                             16.width,
-                            Text(data.displayName.validate(),
-                                    style: boldTextStyle())
-                                .expand(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(data.displayName.validate(),
+                                    style: boldTextStyle()),
+                                4.height,
+                                if (data.age != null ||
+                                    data.age != 0 ||
+                                    data.gender != null)
+                                  Text(
+                                    [
+                                      if (data.age != null || data.age != 0)
+                                        "Age: ${data.age}",
+                                      if (data.gender != null)
+                                        "Gender: ${data.gender!.capitalizeFirstLetter()}"
+                                    ].join(" | "),
+                                    style: secondaryTextStyle(size: 12),
+                                  ),
+                              ],
+                            ).expand(),
                             4.width,
                             SelectedItemWidget(
                                 isSelected:

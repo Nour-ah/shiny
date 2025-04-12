@@ -19,10 +19,8 @@ abstract class BaseLanguage {
   String get selectGender;
   String get male;
   String get female;
-  // String get ageRange1;
-  // String get ageRange2;
-  // String get ageRange3;
-  // String get ageRange4;
+  String get age;
+  String get gender;
 
   String get signUp;
 

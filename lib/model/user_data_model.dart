@@ -15,6 +15,8 @@ class UserData {
   int? totalBooking;
   int? age;
   String? gender;
+  //الاضافه
+  String? note;
 
   ///check its use
   String? description;
@@ -115,6 +117,7 @@ class UserData {
     this.displayName,
     this.socialImage,
     this.email,
+    this.note, //add
     this.emailVerifiedAt,
     this.firstName,
     this.id,
@@ -167,6 +170,7 @@ class UserData {
       countryId: json['country_id'],
       createdAt: json['created_at'],
       displayName: json['display_name'],
+      note: json['note_confirm'],
       email: json['email'],
       emailVerifiedAt: json['email_verified_at'],
       firstName: json['first_name'],

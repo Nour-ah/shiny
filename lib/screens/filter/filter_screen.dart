@@ -1,3 +1,4 @@
+// screens/filter/filter_screen.dart
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/category_model.dart';
@@ -86,8 +87,6 @@ class _FilterScreenState extends State<FilterScreen> {
 
   DateTime? selectedDate;
   String? selectedGender;
-
-
 
   Widget buildItem({required String name, required bool isSelected}) {
     return Container(
@@ -181,10 +180,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 FilterCategoryComponent(catList: catList),
                 FilterPriceComponent(),
                 FilterRatingComponent(),
-                FilterAgeTypeComponent(
-
-                ),
-               ][isSelected]
+                FilterAgeTypeComponent(),
+              ][isSelected]
                   .flexible(flex: 5),
             ],
           ).expand(),

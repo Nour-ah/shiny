@@ -96,7 +96,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 },
                 physics: AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.all(16),
-                listAnimationType: ListAnimationType.FadeIn,
+                //listAnimationType: ListAnimati onType.FadeIn,
                 fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
                 onNextPage: () {
                   if (!isLastPage) {

@@ -62,6 +62,12 @@ class LanguageEn extends BaseLanguage {
   @override
   String get female => "Female";
 
+   @override
+  String get age => " Age";
+
+  @override
+  String get gender => " Gender";
+
 // @override
 // String get ageRange1 => "18-25 ";
 
@@ -389,7 +395,8 @@ class LanguageEn extends BaseLanguage {
   String get lblUseCurrentLocation => "Use Current Location";
 
   @override
-  String get lblEnterDescription => "Enter Description";
+  String get lblEnterDescription =>
+      "Enter Description Or A Summary Of The Patient Record In Nursing Services";
 
   @override
   String get lblPrice => "Price";

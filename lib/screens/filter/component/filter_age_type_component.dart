@@ -208,6 +208,8 @@ class FilterDropdownComponent extends StatelessWidget {
   final Function(String?) onAgeChanged;
   final Function(String?) onGenderChanged;
 
+  
+
   final List<String> ageRanges = ["18-25", "26-35", "36-50", "50+"];
 
   FilterDropdownComponent({
@@ -269,3 +271,50 @@ class FilterDropdownComponent extends StatelessWidget {
     );
   }
 }
+
+// class FilterDropdownComponent extends StatelessWidget {
+//   final String? selectedGender;
+//   final String? selectedAgeRange;
+//   final ValueChanged<String?> onAgeChanged;
+//   final ValueChanged<String?> onGenderChanged;
+
+//   FilterDropdownComponent({
+//     required this.selectedAgeRange,
+//     required this.selectedGender,
+//     required this.onAgeChanged,
+//     required this.onGenderChanged,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         // دروب داون لاختيار النوع
+//         DropdownButton<String>(
+//           value: selectedGender,
+//           hint: Text("Select Gender"),
+//           onChanged: onGenderChanged,
+//           items: ['Male', 'Female'].map((String value) {
+//             return DropdownMenuItem<String>(
+//               value: value,
+//               child: Text(value),
+//             );
+//           }).toList(),
+//         ),
+//         SizedBox(width: 16),
+//         // دروب داون لاختيار الفئة العمرية
+//         DropdownButton<String>(
+//           value: selectedAgeRange,
+//           hint: Text("Select Age Range"),
+//           onChanged: onAgeChanged,
+//           items: ['18-25', '26-35', '36-50', '50+'].map((String value) {
+//             return DropdownMenuItem<String>(
+//               value: value,
+//               child: Text(value),
+//             );
+//           }).toList(),
+//         ),
+//       ],
+//     );
+//   }
+// }
